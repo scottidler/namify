@@ -7,9 +7,13 @@ use std::fs::OpenOptions;
 use std::io::{BufRead, BufReader, Write};
 use std::path::Path;
 
+mod built_info {
+    include!(concat!(env!("OUT_DIR"), "/git_describe.rs"));
+}
+
 /// A utility to prepend relative file paths as comments to the top of matching files.
 #[derive(Parser, Debug)]
-#[command(author, version, about, long_about = None)]
+#[command(author, version = built_info::GIT_DESCRIBE, about, long_about = None)]
 struct Args {
     /// Glob patterns to match files
     patterns: Vec<String>,
@@ -91,4 +95,3 @@ fn process_file(cwd: &Path, file_path: &Path) -> Result<bool> {
 
     Ok(true)
 }
-
