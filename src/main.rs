@@ -8,12 +8,10 @@ use std::fs::OpenOptions;
 use std::io::{BufRead, BufReader, Write};
 use std::path::Path;
 
-mod built_info {
-    include!(concat!(env!("OUT_DIR"), "/git_describe.rs"));
-}
+// Built-in version from build.rs via env!("GIT_DESCRIBE")
 
 #[derive(Parser, Debug)]
-#[command(author, version = built_info::GIT_DESCRIBE, about, long_about = None)]
+#[command(author, version = env!("GIT_DESCRIBE"), about, long_about = None)]
 struct Args {
     patterns: Vec<String>,
 }
